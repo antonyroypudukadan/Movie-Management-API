@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Movie Center
+{% endblock %}
+
+{% block content %}
+    <a href="{{ url_for('movie') }}"  class="btn btn-light" role="button" data-inline="true" aria-pressed="true">All Movies</a>
+    <a href="/movie/add"  class="btn btn-primary" role="button" data-inline="true" aria-pressed="true">Add Movie</a>
+    <a href="/movie/delete"  class="btn btn-danger" role="button" data-inline="true" aria-pressed="true">Delete Movie</a>
+    <div class="dropdown d-inline-block">
+        <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Set Favourite Genre
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/movie/favGenre?genre=Drama">Drama</a>
+            <a class="dropdown-item" href="/movie/favGenre?genre=Action">Action</a>
+            <a class="dropdown-item" href="/movie/favGenre?genre=Crime">Crime</a>
+            <a class="dropdown-item" href="/movie/favGenre?genre=History">History</a>
+            <a class="dropdown-item" href="/movie/favGenre?genre=Thriller">Thriller</a>
+            <a class="dropdown-item" href="/movie/favGenre?genre=Comedy">Comedy</a>
+            <a class="dropdown-item" href="/movie/favGenre?genre=Romance">Romance</a>
+        </div>
+    </div>
+    <div class="dropdown d-inline-block">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="{{ url_for('sort_name') }}">Name</a>
+            <a class="dropdown-item" href="{{ url_for('sort_year') }}">Year of Release</a>
+            <a class="dropdown-item" href="{{ url_for('sort_votes') }}">Votes</a>
+        </div>
+    </div>
+    <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <!-- Your Columns HERE -->
+            <th scope="col">Name</th>
+            <th scope="col">Year</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Upvotes</th>
+            <th scope="col">Downvotes</th>
+            <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Your rows inside the table HERE: -->
+            {% for item in items %}
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.year}}</td>
+                    <td>{{item.genre}}</td>
+                    <td>{{item.up}}</td>
+                    <td>{{item.down}}</td>
+                    <td>
+{#                        <button class="btn btn-outline btn-info">Upvote</button>#}
+{#                        <button class="btn btn-outline btn-success">Downvote</button>#}
+                        <a href="{{ '/movie/upvote/%s'%item.name }}" class="btn btn-outline btn-info" role="button" aria-pressed="true" onclick="return disableMe()">Upvote</a>
+                        <a href="{{ '/movie/downvote/%s'%item.name }}" class="btn btn-outline btn-success" role="button" aria-pressed="true">Downvote</a>
+                    </td>
+                </tr>
+            {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
