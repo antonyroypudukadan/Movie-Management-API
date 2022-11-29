@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "3fb7498c-a87a-426c-aa10-552623d6fa16",
+		"name": "Postman_Collection_MovieManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23979590"
+	},
+	"item": [
+		{
+			"name": "movie",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/home",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "movieCentre",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "luca",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addMovie",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "username",
+						"value": "luca",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "year",
+							"value": "1999",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Titanic",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Drama",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/add",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delMovie",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "luca",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/delete",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "favGenre=Drama",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "luca",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/favGenre?genre=Drama",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"favGenre"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "Drama"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "favGenre=Comedy",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "luca",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/favGenre?genre=Comedy",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"favGenre"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "Comedy"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sortBy=Name",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "luca",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/sort/name",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"sort",
+						"name"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sortBy=year",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "luca",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/sort/year",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"sort",
+						"year"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sortBy=votes",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "username",
+						"value": "luca",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/sort/votes",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"sort",
+						"votes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
