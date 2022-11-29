@@ -27,8 +27,8 @@
             Sort by
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="{{ url_for('sort_name') }}">Name</a>
-            <a class="dropdown-item" href="{{ url_for('sort_year') }}">Year of Release</a>
+            <a class="dropdown-item" href="{{ url_for('sort_by',sortBy="name") }}">Name</a>
+            <a class="dropdown-item" href="{{ url_for('sort_by',sortBy="year") }}">Year of Release</a>
             <a class="dropdown-item" href="{{ url_for('sort_votes') }}">Votes</a>
         </div>
     </div>
@@ -56,8 +56,8 @@
                     <td>
 {#                        <button class="btn btn-outline btn-info">Upvote</button>#}
 {#                        <button class="btn btn-outline btn-success">Downvote</button>#}
-                        <a href="{{ '/movie/upvote/%s'%item.name }}" class="btn btn-outline btn-info" role="button" aria-pressed="true" onclick="return disableMe()">Upvote</a>
-                        <a href="{{ '/movie/downvote/%s'%item.name }}" class="btn btn-outline btn-success" role="button" aria-pressed="true">Downvote</a>
+                        <a href="{{ '/movie/upvote/%s'%item._id }}" class="btn btn-outline btn-info" role="button" aria-pressed="true" onclick="return disableMe()">Upvote</a>
+                        <a href="{{ '/movie/downvote/%s'%item._id }}" class="btn btn-outline btn-success" role="button" aria-pressed="true">Downvote</a>
                     </td>
                 </tr>
             {% endfor %}
