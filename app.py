@@ -32,11 +32,15 @@ def login_required(f):
     wraps(f)
     def secure_function(*args, **kwargs):
         try:
-            x = session["name"]
+            if session and "name" in session:
+                x = session["name"]
+            else:
+                x = request.headers.get("username")
             if not x:
                 return redirect(url_for("login"))
             return f(*args, **kwargs)
-        except:
+        except Exception as e:
+            print(str(e))
             return redirect(url_for("login"))
     return secure_function
 
