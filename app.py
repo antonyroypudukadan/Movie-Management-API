@@ -3,6 +3,7 @@ from flask_login import LoginManager
 login_manager = LoginManager()
 from flask_session import Session
 import pymongo
+from bson import ObjectId
 import jwt
 import datetime
 from functools import wraps
@@ -14,7 +15,6 @@ app.config['MONGO_DBNAME'] = 'Flask'
 client = pymongo.MongoClient("mongodb+srv://m001-student:m001-mongodb-basics@sandbox.frwq2ks.mongodb.net/?retryWrites=true&w=majority")
 db = client.antony_test
 c = db.movie
-b=db.blacklist
 a= db.users
 
 @app.route("/")
@@ -52,7 +52,7 @@ def add_movie():
     if request.method=="POST":
         name = request.form.get('name')
         year = request.form.get('year')
-        yr= int(year)
+        yr = int(year)
         genre = request.form.get('genre')
         c.insert_one({"name":name, "year": yr, "genre":genre,"up":0, "down":0})
         #newLine
@@ -68,15 +68,15 @@ def del_movie():
         c.delete_many({"name":name})
     return render_template('del_movie.html')
 
-@app.route("/movie/sort/name")
-def sort_name():
-    srt = c.find().sort("name")
+@app.route("/movie/sort/<sortBy>")
+def sort_by(sortBy):
+    srt = c.find().sort(sortBy)
     return render_template('movie.html',items=srt)
 
-@app.route("/movie/sort/year")
-def sort_year():
-    srt = c.find().sort("year")
-    return render_template('movie.html',items=srt)
+# @app.route("/movie/sort/year")
+# def sort_year():
+#     srt = c.find().sort("year")
+#     return render_template('movie.html',items=srt)
 
 @app.route("/movie/sort/votes")
 def sort_votes():
@@ -98,37 +98,54 @@ def fav_genre():
     srt = c.find({"genre":genre})
     return render_template('movie.html',items=srt)
 
-@app.route("/movie/upvote/<name>",endpoint="func4")
+@app.route("/movie/upvote/<userid>",endpoint="func4")
 @login_required
-def upvote(name):
-    x = a.find_one({'user': session["name"]})
-    if not x[name]:
-        query = {"name":name}
+def upvote(userid):
+    userId = str(userid)
+    x = a.find_one({'user': session["name"]}) #find user collection using logged in user  #a=users
+    y = c.find_one({"_id":ObjectId(userId)})
+    name = y["name"] #extract name of movie from userId
+    if not x[name]:                 #checking if the movie name exists in user collection
+        query = {"_id":ObjectId(userId)}
         inc = {"$inc":{"up":1}}
-        c.update_one(query,inc)
+        c.update_one(query,inc)                    #c=movies
+        #newline
+        query1 = {"_id":ObjectId(userId)}
+        updte = {"$set":{session["name"]: True}}
+        c.update_one(query1, updte)
         #newline
         query2 = {"user": session["name"]}
         newvalues2 = {"$set": {name: True}}
         a.update_one(query2, newvalues2)
+
     else:
         return "Already voted"
     return redirect(url_for('movie'))
 
-@app.route("/movie/downvote/<name>", endpoint="func5")
+@app.route("/movie/downvote/<userid>",endpoint="func5")
 @login_required
-def downvote(name):
-    x = a.find_one({'user': session["name"]})
-    if not x[name]:
-        query = {"name":name}
+def downvote(userid):
+    userId = str(userid)
+    x = a.find_one({'user': session["name"]}) #find user collection using logged in user  #a=users
+    y = c.find_one({"_id":ObjectId(userId)})
+    name = y["name"] #extract name of movie from userId
+    if not x[name]:                 #checking if the movie name exists in user collection
+        query = {"_id":ObjectId(userId)}
         inc = {"$inc":{"down":1}}
-        c.update_one(query,inc)
+        c.update_one(query,inc)                    #c=movies
+        #newline
+        query1 = {"_id":ObjectId(userId)}
+        updte = {"$set":{session["name"]: False}}
+        c.update_one(query1, updte)
         #newline
         query2 = {"user": session["name"]}
         newvalues2 = {"$set": {name: True}}
         a.update_one(query2, newvalues2)
+
     else:
         return "Already voted"
     return redirect(url_for('movie'))
+
 
 @app.route('/login', methods =["POST","GET"])
 def login():
@@ -165,4 +182,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5000)
